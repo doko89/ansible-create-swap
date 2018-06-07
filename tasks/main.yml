@@ -1,0 +1,19 @@
+- name: create fileswap
+  shell: "fallocate -l {{ size }}G /swap"
+
+- name: change Permission file swap
+  shell: "chmod 600 /swap"
+
+- name: format swap
+  shell: "mkswap /swap"
+
+- name: add to fstab
+  lineinfile: 
+    path: /etc/fstab
+    regexp: '^/swap'
+    line: "/swap none swap sw 0 0"
+    state: present
+
+- name: enable swap
+  shell: "swapon -a"
+  
